@@ -11,14 +11,26 @@ const diceEl = document.querySelector('.dice')
 const btnNewEl = document.querySelector('.btn--new')
 const btnRollEl = document.querySelector('.btn--roll')
 const btnHoldEl = document.querySelector('.btn--hold')
-// const activePlayerEl = document.querySelector('.player--active');
-// player--active
-score1El.textContent = 0
-score2El.textContent = 0
-const scores = [0, 0]
-let currentScore = 0
-let activePlayer = 0
-let playing = true
+
+let scores, currentScore, activePlayer, playing;
+
+function gameInit() {
+    scores = [0, 0]
+    currentScore = 0
+    activePlayer = 0
+    playing = true
+    score1El.textContent = 0
+    score2El.textContent = 0
+    diceEl.classList.add('hidden')
+    current0El.textContent = 0
+    current1El.textContent = 0
+    player0El.classList.add('player--active')
+    player1El.classList.remove('player--active')
+    player0El.classList.remove('player--winner')
+    player1El.classList.remove('player--winner')
+}
+// initialize game at the beginning
+gameInit()
 
 const switchPlayer = () => {
     document.getElementById(`current--${activePlayer}`).textContent = 0
@@ -28,7 +40,6 @@ const switchPlayer = () => {
     player1El.classList.toggle('player--active')
 }
 
-diceEl.classList.add('hidden')
 
 btnRollEl.addEventListener('click', function () {
     if (!playing) return
@@ -42,10 +53,7 @@ btnRollEl.addEventListener('click', function () {
     if (dice !== 1) {
         currentScore += dice
         document.getElementById(`current--${activePlayer}`).textContent = currentScore
-        // document.querySelector(`.player--${activePlayer}`).classList.add('player--active')
     } else {
-        //switch player
-
         switchPlayer()
     }
 
@@ -57,7 +65,7 @@ btnHoldEl.addEventListener('click', function () {
     document.getElementById(`score--${activePlayer}`).textContent = scores[activePlayer]
 
 
-    if (scores[activePlayer] >= 10) {
+    if (scores[activePlayer] >= 100) {
         playing = false
         diceEl.classList.add('hidden')
         document.querySelector(`.player--${activePlayer}`).classList.add('player--winner')
@@ -66,4 +74,10 @@ btnHoldEl.addEventListener('click', function () {
         switchPlayer()
     }
 
+})
+
+
+btnNewEl.addEventListener('click', function () {
+    // reinitialize game when "New Game" button is clicked
+    gameInit()
 })
